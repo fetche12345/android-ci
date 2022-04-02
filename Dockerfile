@@ -26,16 +26,15 @@ RUN apk add --no-cache --virtual=.build-dependencies wget unzip ca-certificates 
 # RUN wget http://dl.google.com/android/repository/sdk-tools-linux-3859397.zip -O /tmp/tools.zip && \
 RUN wget https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip -O /tmp/tools.zip && \
     mkdir -p ${ANDROID_HOME} && \
-    unzip /tmp/tools.zip -d ${ANDROID_HOME}
-RUN mkdir -p ${ANDROID_HOME}/tools && \
+    unzip /tmp/tools.zip -d ${ANDROID_HOME} && \
+    mkdir -p ${ANDROID_HOME}/tools && \
     mv ${ANDROID_HOME}/cmdline-tools/* ${ANDROID_HOME}/tools/ && \
     mv ${ANDROID_HOME}/tools ${ANDROID_HOME}/cmdline-tools/ && \
     rm -v /tmp/tools.zip
 # Install Android packages & libraries
 RUN export PATH=$PATH:$ANDROID_HOME/cmdline-tools/tools/bin && \
-    mkdir -p /root/.android/ && touch /root/.android/repositories.cfg
-
-RUN yes | $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager "--licenses" && \
+    mkdir -p /root/.android/ && touch /root/.android/repositories.cfg && \
+    yes | $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager "--licenses" && \
     $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --verbose "build-tools;${BUILD_TOOLS}" "platform-tools" "platforms;android-${SDK_TOOLS_API}" \
     && $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --verbose "extras;android;m2repository" "extras;google;google_play_services" "extras;google;m2repository"
 # Install pip for grip export README.md to html
