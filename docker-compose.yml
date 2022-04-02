@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  eventish_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: eventish_docker
+    container_name: eventish_app
+    restart: always
+    tty: true
+    user: '1000:1000'
+    ports:
+      - "8081:8081"
+    volumes:
+      - .:/app
+
+    # networks:
+    #   - backend
